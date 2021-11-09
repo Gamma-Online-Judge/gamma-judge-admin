@@ -1,29 +1,22 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom';
+import PostProblem from './problems/PostProblem';
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/users" component={Users} />
-      </Switch>
+      <Route path="/" exact={true} component={Home} />
+      <Route path="/postProblem" exact={true} component={PostProblem} />
     </Router>
   );
 }
 
 function Home() {
   return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 export default App;
