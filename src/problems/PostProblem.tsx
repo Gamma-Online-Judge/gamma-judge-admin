@@ -8,17 +8,6 @@ type InputEvent = React.ChangeEvent<HTMLInputElement>;
 export default function PostProblem() {
   const [problemData, setProblemData] = useState<ProblemData>({});
 
-  const keysOfProblemData: (keyof ProblemData)[] = [
-    'title',
-    'statement',
-    'timeLimit',
-    'memoryLimit',
-    'customId',
-    'contestId',
-    'input',
-    'output',
-  ];
-
   function handleSubmit() {
     console.log(problemData);
   }
@@ -34,7 +23,9 @@ export default function PostProblem() {
       </div>
       <div className="form-container">
         <Form>
-          {renderInputAreas(handleInputChange, problemData)}
+          <div className="flex-inputs">
+            {renderInputAreas(handleInputChange, problemData)}
+          </div>
           {renderTextAreas(handleInputChange, problemData)}
 
           <Button variant="primary" onClick={handleSubmit}>
@@ -86,7 +77,12 @@ function renderInputAreas(
     if (key === 'sampleInputs') return null;
     if (key === 'tags') return null;
     return (
-      <FloatingLabel key={key} controlId={key} className="mb-3" label={key}>
+      <FloatingLabel
+        className="input-container"
+        key={key}
+        controlId={key}
+        label={key}
+      >
         <Form.Control value={problemData[key]} onChange={onChange} />
       </FloatingLabel>
     );
