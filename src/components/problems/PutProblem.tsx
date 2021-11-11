@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { putProblem, deleteProblem } from '../../actions/problems.client';
 import { ProblemData } from '../../models/problem';
+import InputGroup from '../input/InputGroup';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -12,7 +13,7 @@ export default function PutProblem() {
     putProblem(problemData);
   }
 
-  function handleDelete(){
+  function handleDelete() {
     deleteProblem(problemData.customId || '');
   }
   function handleInputChange(e: InputEvent) {
@@ -26,11 +27,24 @@ export default function PutProblem() {
       </div>
       <div className="form-container">
         <Form>
-          <div className="flex-inputs">
-            {renderInputAreas(handleInputChange, problemData)}
-          </div>
-          {renderTextAreas(handleInputChange, problemData)}
-        
+          <InputGroup
+            onChange={handleInputChange}
+            model={problemData}
+            keyList={[
+              'customId',
+              'title',
+              'timeLimit',
+              'memoryLimit',
+              'contestId',
+            ]}
+          />
+          <InputGroup
+            onChange={handleInputChange}
+            model={problemData}
+            keyList={['statement', 'input', 'output']}
+            renderType="textarea"
+          />
+
           <Button
             className="input-container"
             variant="primary"
@@ -72,32 +86,6 @@ function renderTextAreas(
           value={problemData[key] || ''}
           onChange={onChange}
           style={{ height: '200px' }}
-        />
-      </FloatingLabel>
-    );
-  });
-}
-
-function renderInputAreas(
-  onChange: (e: InputEvent) => void,
-  problemData: ProblemData
-) {
-  const keysOfProblemData: (keyof ProblemData)[] = [
-    'customId',
-    'title',
-    'timeLimit',
-    'memoryLimit',
-    'contestId',
-  ];
-  return keysOfProblemData.map((key: keyof ProblemData) => {
-    if (key === 'sampleInputs') return null;
-    if (key === 'tags') return null;
-    return (
-      <FloatingLabel className="input-container" key={key} label={key}>
-        <Form.Control
-          id={key}
-          value={problemData[key] || ''}
-          onChange={onChange}
         />
       </FloatingLabel>
     );

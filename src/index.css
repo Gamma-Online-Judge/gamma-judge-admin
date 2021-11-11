@@ -23,6 +23,21 @@ code {
   flex-wrap: wrap;
 }
 
+.full-inputs {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.full-input {
+  width: 100%;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+.flex-input {
+  margin: 6px;
+  width: 300px;
+}
+
 .input-container {
   margin-bottom: 12px;
   margin-right: 12px;
