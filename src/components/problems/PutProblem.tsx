@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, FloatingLabel, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { putProblem, deleteProblem } from '../../actions/problems.client';
 import { ProblemData } from '../../models/problem';
 import InputGroup from '../input/InputGroup';
@@ -64,30 +64,4 @@ export default function PutProblem() {
       </div>
     </div>
   );
-}
-
-function renderTextAreas(
-  onChange: (e: InputEvent) => void,
-  problemData: ProblemData
-) {
-  const keysOfProblemData: (keyof ProblemData)[] = [
-    'statement',
-    'input',
-    'output',
-  ];
-  return keysOfProblemData.map((key: keyof ProblemData) => {
-    if (key === 'sampleInputs') return null;
-    if (key === 'tags') return null;
-    return (
-      <FloatingLabel key={key} className="mb-3" label={key}>
-        <Form.Control
-          as="textarea"
-          id={key}
-          value={problemData[key] || ''}
-          onChange={onChange}
-          style={{ height: '200px' }}
-        />
-      </FloatingLabel>
-    );
-  });
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, FloatingLabel, Form } from 'react-bootstrap';
+import { Button, Card, FloatingLabel, Form, ListGroup } from 'react-bootstrap';
 import { deleteContest, putContest } from '../../actions/contests.client';
 import { ContestData, ContestProblemData } from '../../models/contest';
 import InputGroup from '../input/InputGroup';
@@ -34,7 +34,7 @@ export default function PutContest() {
               model={contestData}
               keyList={['name', 'customId']}
             />
-            <FloatingLabel className="input-container" label={'date'}>
+            <FloatingLabel className="flex-input" label={'date'}>
               <Form.Control
                 id={'date'}
                 type="date"
@@ -51,7 +51,7 @@ export default function PutContest() {
           />
 
           <Button
-            className="input-container"
+            className="flex-input"
             variant="primary"
             onClick={handleSubmit}
           >
@@ -59,7 +59,7 @@ export default function PutContest() {
           </Button>
 
           <Button
-            className="input-container"
+            className="flex-input"
             variant="danger"
             onClick={handleDelete}
           >
@@ -77,43 +77,65 @@ interface ContestDataListProps {
 }
 function ContestDataList({ problems, onChange }: ContestDataListProps) {
   const [newProblem, setNewProblem] = useState<ContestProblemData>({});
+
   function handleInputChange(e: InputEvent) {
     setNewProblem({ ...newProblem, [e.target.id]: e.target.value });
   }
-  return (
-    <div>
-      {problems.map((problem) => (
-        <div>
-          {problem.identifier} {problem.problemId}
-        </div>
-      ))}
+  function addProblem() {
+    onChange([...problems, newProblem]);
+    setNewProblem({});
+  }
 
-      <Form.Control
-        id={'identifier'}
-        value={newProblem.identifier}
-        onChange={handleInputChange}
-      />
-      <Form.Control
-        id={'problemId'}
-        value={newProblem.problemId}
-        onChange={handleInputChange}
-      />
+  function deleteLastProblem() {
+    onChange(problems.slice(0, -1));
+  }
+
+  return (
+    <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+      <h5> Contest Problems </h5>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <div style={{ margin: '6px' }}>
+          <Card style={{ width: '18rem' }}>
+            <Card.Header>Identifier : ProblemID</Card.Header>
+            <ListGroup variant="flush">
+              {problems.map((problem, i) => (
+                <ListGroup.Item key={i.toString()}>
+                  {problem.identifier} : {problem.problemId}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </Card>
+        </div>
+        <div style={{ margin: '6px' }}>
+          <InputGroup
+            onChange={handleInputChange}
+            model={newProblem}
+            keyList={['identifier', 'problemId']}
+          />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+            }}
+          >
+            <Button style={{ margin: '6px' }} onClick={addProblem}>
+              Add new Problem
+            </Button>
+            <Button
+              variant="danger"
+              style={{ margin: '6px' }}
+              onClick={deleteLastProblem}
+            >
+              Delete last problem
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
-
-function renderInputAreas(
-  onChange: (e: InputEvent) => void,
-  contestData: ContestData
-) {
-  const keysOfContestData: (keyof ContestData)[] = ['name', 'customId'];
-  return keysOfContestData.map((key: keyof ContestData) => {
-    if (key === 'date') return null;
-    if (key === 'problems') return null;
-    return (
-      <FloatingLabel className="input-container" key={key} label={key}>
-        <Form.Control id={key} value={contestData[key]} onChange={onChange} />
-      </FloatingLabel>
-    );
-  });
 }

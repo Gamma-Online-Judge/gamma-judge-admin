@@ -6,14 +6,14 @@ interface InputGroupProps<T> {
   onChange: ChangeEventHandler<FormControlElement>;
   model: T;
   keyList: (keyof T)[];
-  renderType?: 'text' | 'textarea';
+  renderType?: undefined | 'textarea';
 }
 
 export default function InputGroup<T>({
   onChange,
   keyList,
   model,
-  renderType = 'text',
+  renderType = undefined,
 }: InputGroupProps<T>) {
   const containerClass =
     renderType === 'textarea' ? 'full-inputs' : 'flex-inputs';
