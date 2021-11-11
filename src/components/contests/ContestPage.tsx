@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { Button, Card, FloatingLabel, Form, ListGroup } from 'react-bootstrap';
-import { deleteContest, putContest } from '../../actions/contests.client';
+import { deleteContest, getContest, putContest } from '../../actions/contests.client';
 import { ContestData, ContestProblemData } from '../../models/contest';
 import InputGroup from '../input/InputGroup';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
-export default function PutContest() {
+export default function ContestPage() {
   const [contestData, setContestData] = useState<ContestData>({});
 
+  function handleGet() {
+    getContest(contestData.customId || '').then(setContestData);
+  }
   function handleSubmit() {
     putContest(contestData);
   }
@@ -32,7 +35,7 @@ export default function PutContest() {
             <InputGroup
               onChange={handleInputChange}
               model={contestData}
-              keyList={['name', 'customId']}
+              keyList={['customId', 'name']}
             />
             <FloatingLabel className="flex-input" label={'date'}>
               <Form.Control
@@ -49,6 +52,14 @@ export default function PutContest() {
               setContestData({ ...contestData, problems: problems })
             }
           />
+
+          <Button
+            className="input-container"
+            variant="success"
+            onClick={handleGet}
+          >
+            GET
+          </Button>
 
           <Button
             className="flex-input"

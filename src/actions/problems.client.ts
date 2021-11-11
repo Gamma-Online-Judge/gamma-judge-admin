@@ -12,3 +12,8 @@ export async function putProblem(problemData: ProblemData) {
 export async function deleteProblem(problemId: string) {
     await client.delete(`/${problemId}`);
 }
+
+export async function getProblem(problemId: string) {
+    const problem = await client.get(`/${problemId}`);
+    return problem.data as ProblemData;
+}

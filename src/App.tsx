@@ -2,15 +2,15 @@ import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
-import PutContest from './components/contests/PutContest';
-import PutProblem from './components/problems/PutProblem';
+import ContestPage from './components/contests/ContestPage';
+import ProblemPage from './components/problems/ProblemPage';
 
 function App() {
   return (
     <Router>
       <Route path="/" exact={true} component={Home} />
-      <Route path="/problems" exact={true} component={PutProblem} />
-      <Route path="/contests" exact={true} component={PutContest} />
+      <Route path="/problems" exact={true} component={ProblemPage} />
+      <Route path="/contests" exact={true} component={ContestPage} />
     </Router>
   );
 }

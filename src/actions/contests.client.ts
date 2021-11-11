@@ -12,3 +12,8 @@ export async function putContest(contestData: ContestData) {
 export async function deleteContest(customId: string) {
     await client.delete(`/${customId}`);
 }
+
+export async function getContest(customId: string) {
+    const contest = await client.get(`/${customId}`);
+    return contest.data as ContestData;
+}
