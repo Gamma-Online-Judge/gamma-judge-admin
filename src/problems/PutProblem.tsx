@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
+import { putProblem } from '../actions/problems.client';
 import { ProblemData } from '../models/problem';
-import './PostProblem.css';
+import './PutProblem.css';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
-export default function PostProblem() {
+export default function PutProblem() {
   const [problemData, setProblemData] = useState<ProblemData>({});
 
   function handleSubmit() {
-    console.log(problemData);
+    putProblem(problemData);
   }
 
   function handleInputChange(e: InputEvent) {
-    setProblemData({ ...problemData, [e.target.name]: e.target.value });
+    setProblemData({ ...problemData, [e.target.id]: e.target.value });
   }
 
   return (
     <div>
       <div className="title-container">
-        <h1 className="form-title"> Post Problem </h1>
+        <h1 className="form-title"> PUT Problem </h1>
       </div>
       <div className="form-container">
         <Form>
@@ -50,10 +51,11 @@ function renderTextAreas(
     if (key === 'sampleInputs') return null;
     if (key === 'tags') return null;
     return (
-      <FloatingLabel key={key} controlId={key} className="mb-3" label={key}>
+      <FloatingLabel key={key} className="mb-3" label={key}>
         <Form.Control
           as="textarea"
-          value={problemData[key]}
+          id={key}
+          value={problemData[key] || ''}
           onChange={onChange}
           style={{ height: '200px' }}
         />
@@ -80,10 +82,9 @@ function renderInputAreas(
       <FloatingLabel
         className="input-container"
         key={key}
-        controlId={key}
         label={key}
       >
-        <Form.Control value={problemData[key]} onChange={onChange} />
+        <Form.Control id={key} value={problemData[key] || ''} onChange={onChange} />
       </FloatingLabel>
     );
   });

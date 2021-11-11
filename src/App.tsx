@@ -4,13 +4,13 @@ import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
-import PostProblem from './problems/PostProblem';
+import PutProblem from './problems/PutProblem';
 
 function App() {
   return (
     <Router>
       <Route path="/" exact={true} component={Home} />
-      <Route path="/postProblem" exact={true} component={PostProblem} />
+      <Route path="/putProblem" exact={true} component={PutProblem} />
     </Router>
   );
 }
