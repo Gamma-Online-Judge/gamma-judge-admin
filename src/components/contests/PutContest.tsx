@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { deleteContest, putContest } from '../../actions/contests.client';
-import { ContestData } from '../../models/contest';
+import { ContestData, ContestProblemData } from '../../models/contest';
+import InputGroup from '../input/InputGroup';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
-export default function PutCOntest() {
+export default function PutContest() {
   const [contestData, setContestData] = useState<ContestData>({});
 
   function handleSubmit() {
@@ -28,7 +29,11 @@ export default function PutCOntest() {
       <div className="form-container">
         <Form>
           <div className="flex-inputs">
-            {renderInputAreas(handleInputChange, contestData)}
+            <InputGroup
+              onChange={handleInputChange}
+              model={contestData}
+              keyList={['name', 'customId']}
+            />
             <FloatingLabel className="input-container" label={'date'}>
               <Form.Control
                 id={'date'}
@@ -38,16 +43,61 @@ export default function PutCOntest() {
               />
             </FloatingLabel>
           </div>
+          <ContestDataList
+            problems={contestData.problems || []}
+            onChange={(problems) =>
+              setContestData({ ...contestData, problems: problems })
+            }
+          />
 
-          <Button className="input-container" variant="primary" onClick={handleSubmit}>
+          <Button
+            className="input-container"
+            variant="primary"
+            onClick={handleSubmit}
+          >
             PUT
           </Button>
 
-          <Button className="input-container" variant="danger" onClick={handleDelete}>
+          <Button
+            className="input-container"
+            variant="danger"
+            onClick={handleDelete}
+          >
             DELETE
           </Button>
         </Form>
       </div>
+    </div>
+  );
+}
+
+interface ContestDataListProps {
+  problems: ContestProblemData[];
+  onChange: (contestList: ContestProblemData[]) => void;
+}
+function ContestDataList({ problems, onChange }: ContestDataListProps) {
+  const [newProblem, setNewProblem] = useState<ContestProblemData>({});
+  function handleInputChange(e: InputEvent) {
+    setNewProblem({ ...newProblem, [e.target.id]: e.target.value });
+  }
+  return (
+    <div>
+      {problems.map((problem) => (
+        <div>
+          {problem.identifier} {problem.problemId}
+        </div>
+      ))}
+
+      <Form.Control
+        id={'identifier'}
+        value={newProblem.identifier}
+        onChange={handleInputChange}
+      />
+      <Form.Control
+        id={'problemId'}
+        value={newProblem.problemId}
+        onChange={handleInputChange}
+      />
     </div>
   );
 }

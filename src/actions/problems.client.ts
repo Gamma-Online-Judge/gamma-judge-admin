@@ -8,3 +8,7 @@ const client = axios.create({
 export async function putProblem(problemData: ProblemData) {
     await client.put('/', problemData);
 }
+
+export async function deleteProblem(problemId: string) {
+    await client.delete(`/${problemId}`);
+}

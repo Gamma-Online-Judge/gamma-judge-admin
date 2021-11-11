@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
-import { putProblem } from '../../actions/problems.client';
+import { putProblem, deleteProblem } from '../../actions/problems.client';
 import { ProblemData } from '../../models/problem';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
@@ -12,6 +12,9 @@ export default function PutProblem() {
     putProblem(problemData);
   }
 
+  function handleDelete(){
+    deleteProblem(problemData.customId || '');
+  }
   function handleInputChange(e: InputEvent) {
     setProblemData({ ...problemData, [e.target.id]: e.target.value });
   }
@@ -27,9 +30,21 @@ export default function PutProblem() {
             {renderInputAreas(handleInputChange, problemData)}
           </div>
           {renderTextAreas(handleInputChange, problemData)}
+        
+          <Button
+            className="input-container"
+            variant="primary"
+            onClick={handleSubmit}
+          >
+            PUT
+          </Button>
 
-          <Button variant="primary" onClick={handleSubmit}>
-            Post problem
+          <Button
+            className="input-container"
+            variant="danger"
+            onClick={handleDelete}
+          >
+            DELETE
           </Button>
         </Form>
       </div>
@@ -78,12 +93,12 @@ function renderInputAreas(
     if (key === 'sampleInputs') return null;
     if (key === 'tags') return null;
     return (
-      <FloatingLabel
-        className="input-container"
-        key={key}
-        label={key}
-      >
-        <Form.Control id={key} value={problemData[key] || ''} onChange={onChange} />
+      <FloatingLabel className="input-container" key={key} label={key}>
+        <Form.Control
+          id={key}
+          value={problemData[key] || ''}
+          onChange={onChange}
+        />
       </FloatingLabel>
     );
   });
