@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
-import { putProblem } from '../actions/problems.client';
-import { ProblemData } from '../models/problem';
-import './PutProblem.css';
+import { putProblem } from '../../actions/problems.client';
+import { ProblemData } from '../../models/problem';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 

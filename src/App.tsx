@@ -1,16 +1,16 @@
-import React from 'react';
-import './App.css';
 import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
-import PutProblem from './problems/PutProblem';
+import PutContest from './components/contests/PutContest';
+import PutProblem from './components/problems/PutProblem';
 
 function App() {
   return (
     <Router>
       <Route path="/" exact={true} component={Home} />
-      <Route path="/putProblem" exact={true} component={PutProblem} />
+      <Route path="/problems" exact={true} component={PutProblem} />
+      <Route path="/contests" exact={true} component={PutContest} />
     </Router>
   );
 }
