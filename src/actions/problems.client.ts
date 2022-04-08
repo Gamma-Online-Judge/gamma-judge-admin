@@ -2,7 +2,7 @@ import axios from "axios";
 import { ProblemData } from "../models/problem";
 
 const client = axios.create({
-    baseURL: 'http://localhost:8000/problems',
+    baseURL: 'http://localhost:5138/api/problems',
 });
 
 export async function putProblem(problemData: ProblemData) {
