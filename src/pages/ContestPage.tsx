@@ -112,11 +112,11 @@ function ContestDataList({ problems, onChange }: ContestDataListProps) {
       >
         <div style={{ margin: '6px' }}>
           <Card style={{ width: '18rem' }}>
-            <Card.Header>Identifier : ProblemID</Card.Header>
+            <Card.Header>Identifier : CustomID</Card.Header>
             <ListGroup variant="flush">
               {problems.map((problem, i) => (
                 <ListGroup.Item key={i.toString()}>
-                  {problem.identifier} : {problem.problemId}
+                  {problem.identifier} : {problem.customId}
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -126,7 +126,7 @@ function ContestDataList({ problems, onChange }: ContestDataListProps) {
           <InputGroup
             onChange={handleInputChange}
             model={newProblem}
-            keyList={['identifier', 'problemId']}
+            keyList={['identifier', 'customId']}
           />
           <div
             style={{

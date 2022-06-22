@@ -1,5 +1,5 @@
 export interface ContestProblemData {
-    problemId?: string;
+    customId?: string;
     identifier?: string;
 }
 
