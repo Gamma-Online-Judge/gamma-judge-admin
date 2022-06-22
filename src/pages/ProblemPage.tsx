@@ -11,9 +11,9 @@ import {
   putProblem,
   deleteProblem,
   getProblem,
-} from '../../actions/problems.client';
-import { ProblemData, SampleInputData } from '../../models/problem';
-import InputGroup from '../input/InputGroup';
+} from '../actions/problems.client';
+import { ProblemData, SampleInputData } from '../models/problem';
+import InputGroup from '../components/input/InputGroup';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -56,7 +56,7 @@ export default function ProblemPage() {
           <InputGroup
             onChange={handleInputChange}
             model={problemData}
-            keyList={['statement', 'input', 'output']}
+            keyList={['statment', 'input', 'output']}
             renderType="textarea"
           />
 

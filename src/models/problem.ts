@@ -5,7 +5,7 @@ export interface SampleInputData {
 
 export interface ProblemData {
     title?: string;
-    statement?: string;
+    statment?: string;
     timeLimit?: number;
     memoryLimit?: number;
     tags?: string[];

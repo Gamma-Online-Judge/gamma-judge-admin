@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Button, Card, FloatingLabel, Form, ListGroup } from 'react-bootstrap';
-import { deleteContest, getContest, putContest } from '../../actions/contests.client';
-import { ContestData, ContestProblemData } from '../../models/contest';
-import InputGroup from '../input/InputGroup';
+import { deleteContest, getContest, putContest } from '../actions/contests.client';
+import { ContestData, ContestProblemData } from '../models/contest';
+import InputGroup from '../components/input/InputGroup';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
