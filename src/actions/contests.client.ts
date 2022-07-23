@@ -2,7 +2,7 @@ import axios from "axios";
 import { ContestData } from "../models/contest";
 
 const client = axios.create({
-    baseURL: 'http://localhost:5138/api/contests',
+    baseURL: `${process.env.REACT_APP_API_BASE_URL}/api/contests`,
 });
 
 export async function putContest(contestData: ContestData) {

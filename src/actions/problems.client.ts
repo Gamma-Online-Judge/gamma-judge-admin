@@ -2,7 +2,7 @@ import axios from "axios";
 import { ProblemData } from "../models/problem";
 
 const client = axios.create({
-    baseURL: 'http://localhost:5138/api/problems',
+    baseURL: `${process.env.REACT_APP_API_BASE_URL}/api/problems`,
 });
 
 export async function putProblem(problemData: ProblemData) {
