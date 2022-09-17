@@ -14,4 +14,5 @@ export interface ProblemData {
     sampleInputs?: SampleInputData[];
     input?: string;
     output?: string;
+    tutorial?: string;
 }

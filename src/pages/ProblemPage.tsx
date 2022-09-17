@@ -56,7 +56,7 @@ export default function ProblemPage() {
           <InputGroup
             onChange={handleInputChange}
             model={problemData}
-            keyList={['statment', 'input', 'output']}
+            keyList={['statment', 'input', 'output', 'tutorial']}
             renderType="textarea"
           />
 
