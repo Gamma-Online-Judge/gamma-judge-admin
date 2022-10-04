@@ -11,42 +11,57 @@ import {
   putProblem,
   deleteProblem,
   getProblem,
-} from '../actions/problems.client';
-import { ProblemData, SampleInputData } from '../models/problem';
-import InputGroup from '../components/input/InputGroup';
+} from '../../actions/problems.client';
+import { ProblemData, SampleInputData } from '../../models/problem';
+import InputGroup from '../../components/input/InputGroup';
+import SaveFooter from '../../components/SaveFooter';
+import './styles.css';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
-export default function ProblemPage() {
+export default function EditProblemPage() {
   const [problemData, setProblemData] = useState<ProblemData>({});
+  const [allowEdit, setAllowEdit] = useState(false);
 
-  function handleGet() {
-    getProblem(problemData.customId || '').then(setProblemData);
+  async function handleGet() {
+    const problemResponse = await getProblem(problemData.customId || '');
+    setAllowEdit(true);
+    setProblemData(problemResponse);
   }
 
-  function handleSubmit() {
-    putProblem(problemData);
+  async function handleSave() {
+    await putProblem(problemData);
   }
 
-  function handleDelete() {
-    deleteProblem(problemData.customId || '');
+  async function handleDelete() {
+    await deleteProblem(problemData.customId || '');
   }
+
   function handleInputChange(e: InputEvent) {
     setProblemData({ ...problemData, [e.target.id]: e.target.value });
   }
 
   return (
-    <div>
+    <div className='edit-problem-page'>
       <div className="title-container">
-        <h1 className="form-title"> PUT Problem </h1>
+        <h1 className="form-title"> { problemData.title} </h1>
       </div>
       <div className="form-container">
         <Form>
+          <FloatingLabel label="customId">
+            <Form.Control
+              id={"customId"}
+              value={problemData.customId}
+              onChange={(e: InputEvent) => {
+                setAllowEdit(false);
+                handleInputChange(e)
+              }}
+            />
+          </FloatingLabel>
           <InputGroup
             onChange={handleInputChange}
             model={problemData}
             keyList={[
-              'customId',
               'title',
               'timeLimit',
               'memoryLimit',
@@ -71,32 +86,9 @@ export default function ProblemPage() {
               setProblemData({ ...problemData, sampleInputs: sampleInputs })
             }
           />
-
-          <Button
-            className="input-container"
-            variant="success"
-            onClick={handleGet}
-          >
-            GET
-          </Button>
-
-          <Button
-            className="input-container"
-            variant="primary"
-            onClick={handleSubmit}
-          >
-            PUT
-          </Button>
-
-          <Button
-            className="input-container"
-            variant="danger"
-            onClick={handleDelete}
-          >
-            DELETE
-          </Button>
         </Form>
       </div>
+      <SaveFooter onDelete={handleDelete} onSave={handleSave} onGet={handleGet} isSaveDisabled={!allowEdit} isDeleteDisabled={!allowEdit} />
     </div>
   );
 }
