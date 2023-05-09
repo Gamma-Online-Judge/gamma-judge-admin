@@ -4,5 +4,3 @@ services:
   admin:
     build: .
     network_mode: 'host'
-    ports:
-      - '3006:3006'
