@@ -1,0 +1,6 @@
+version: '3.8'
+
+services:
+  admin:
+    build: .
+    network_mode: 'host'
