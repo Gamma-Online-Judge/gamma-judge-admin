@@ -4,3 +4,5 @@ services:
   admin:
     build: .
     network_mode: 'host'
+    volumes:
+      - './src/:/app/'

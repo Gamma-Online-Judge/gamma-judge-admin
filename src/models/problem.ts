@@ -4,15 +4,20 @@ export interface SampleInputData {
 }
 
 export interface ProblemData {
-    title?: string;
-    statment?: string;
     timeLimit?: number;
     memoryLimit?: number;
     tags?: string[];
     customId?: string;
     contestId?: string;
     sampleInputs?: SampleInputData[];
+    pt_BR: LanguageProblemData;
+}
+
+export interface LanguageProblemData {
+    title?: string;
+    statement?: string;
     input?: string;
     output?: string;
     tutorial?: string;
+    notes? : string;
 }

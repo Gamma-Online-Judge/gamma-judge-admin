@@ -20,7 +20,7 @@ import './styles.css';
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 export default function EditProblemPage() {
-  const [problemData, setProblemData] = useState<ProblemData>({});
+  const [problemData, setProblemData] = useState<ProblemData | any>({});
   const [allowEdit, setAllowEdit] = useState(false);
 
   async function handleGet() {
@@ -70,8 +70,8 @@ export default function EditProblemPage() {
           />
           <InputGroup
             onChange={handleInputChange}
-            model={problemData}
-            keyList={['statment', 'input', 'output', 'tutorial']}
+            model={problemData.pt_BR}
+            keyList={['statement', 'input', 'output', 'tutorial']}
             renderType="textarea"
           />
 
