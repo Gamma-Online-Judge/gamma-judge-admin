@@ -12,7 +12,7 @@ import {
   deleteProblem,
   getProblem,
 } from '../../actions/problems.client';
-import { ProblemData, SampleInputData } from '../../models/problem';
+import { LanguageProblemData, ProblemData, SampleInputData } from '../../models/problem';
 import InputGroup from '../../components/input/InputGroup';
 import SaveFooter from '../../components/SaveFooter';
 import './styles.css';
@@ -21,6 +21,7 @@ type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 export default function EditProblemPage() {
   const [problemData, setProblemData] = useState<ProblemData | any>({});
+  const [languageProblemData, setLanguageProblemData] = useState<LanguageProblemData | any>({});
   const [allowEdit, setAllowEdit] = useState(false);
 
   async function handleGet() {
@@ -30,6 +31,15 @@ export default function EditProblemPage() {
   }
 
   async function handleSave() {
+    const problemRequest = problemData;
+    problemRequest.pt_BR = languageProblemData;
+    problemRequest.pt_BR.statement = btoa(problemRequest.pt_BR.statement);
+    problemRequest.pt_BR.input = btoa(problemRequest.pt_BR.input);
+    problemRequest.pt_BR.output = btoa(problemRequest.pt_BR.output);
+    problemRequest.pt_BR.notes = btoa(problemRequest.pt_BR.notes);
+    problemRequest.pt_BR.tutorial = btoa(problemRequest.pt_BR.tutorial);
+
+    console.log(problemRequest);
     await putProblem(problemData);
   }
 
@@ -37,14 +47,19 @@ export default function EditProblemPage() {
     await deleteProblem(problemData.customId || '');
   }
 
-  function handleInputChange(e: InputEvent) {
-    setProblemData({ ...problemData, [e.target.id]: e.target.value });
+  function handleInputChange(e: InputEvent, isLanguageKey: boolean = false) {
+    if (isLanguageKey){
+      setLanguageProblemData({ ...languageProblemData, [e.target.id]: e.target.value });
+    }
+    else {
+      setProblemData({...problemData, [e.target.id]: e.target.value});
+    }
   }
 
   return (
     <div className='edit-problem-page'>
       <div className="title-container">
-        <h1 className="form-title"> { problemData.title} </h1>
+        <h1 className="form-title"> { languageProblemData.title} </h1>
       </div>
       <div className="form-container">
         <Form>
@@ -58,20 +73,28 @@ export default function EditProblemPage() {
               }}
             />
           </FloatingLabel>
+          <FloatingLabel label="title">
+            <Form.Control
+              id={"title"}
+              value={languageProblemData.title}
+              onChange={(e: InputEvent) => {
+                handleInputChange(e, true);
+              }}
+            />
+          </FloatingLabel>
           <InputGroup
             onChange={handleInputChange}
             model={problemData}
             keyList={[
-              'title',
               'timeLimit',
               'memoryLimit',
               'contestId',
             ]}
           />
           <InputGroup
-            onChange={handleInputChange}
-            model={problemData.pt_BR}
-            keyList={['statement', 'input', 'output', 'tutorial']}
+            onChange={(value: InputEvent) => handleInputChange(value, true)}
+            model={languageProblemData}
+            keyList={['statement', 'input', 'output', 'notes', 'tutorial']}
             renderType="textarea"
           />
 

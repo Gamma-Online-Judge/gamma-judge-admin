@@ -10,7 +10,7 @@ export interface ProblemData {
     customId?: string;
     contestId?: string;
     sampleInputs?: SampleInputData[];
-    pt_BR: LanguageProblemData;
+    pt_BR?: LanguageProblemData;
 }
 
 export interface LanguageProblemData {
