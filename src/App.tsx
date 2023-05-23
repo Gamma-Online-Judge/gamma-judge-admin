@@ -15,7 +15,7 @@ function App() {
   const [problemFileJson, setProblemFileJson] = useState<ProblemData | any>({})
 
   const saveJsonProblem = async () => {
-    putProblem(problemFileJson);
+    await putProblem(problemFileJson);
   }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +27,6 @@ function App() {
     fileReader.readAsText(files[0], "UTF-8");
 
     fileReader.onload = (e: any) => {
-      console.log(JSON.parse(e.target.result));
       setProblemFileJson(JSON.parse(e.target.result));
     }
   };
