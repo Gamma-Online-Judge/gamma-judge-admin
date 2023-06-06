@@ -44,7 +44,8 @@ docker compose up --build
 
 The fields statement, input, output, tutorial and notes supports both html and latex language. For support Latex, you need to put the latex code inside 2 '$' charactere. Some text formats needs of HTML tags like line break (< br >) and images (< img >).
 
-If you want to import a problem using a json file, follow the format below:
+If you want to import a problem using a json file, follow the format below. :
+text encoding iso-8859-1
 
 ```json
 {

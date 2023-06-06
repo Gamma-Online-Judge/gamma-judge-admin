@@ -1,0 +1,27 @@
+{
+    "name": "O maravilhoso contest de teste",
+    "date": "2023-05-23T21:51:59.391Z",
+    "customId": "1",
+    "problems": [
+      {
+        "identifier": "A",
+        "customId": "1A"
+      },
+      {
+        "identifier": "B",
+        "customId": "1B"
+      },
+      {
+        "identifier": "C",
+        "customId": "2A"
+      },
+      {
+        "identifier": "D",
+        "customId": "2B"
+      },
+      {
+        "identifier": "E",
+        "customId": "T1"
+      }
+    ]
+  }

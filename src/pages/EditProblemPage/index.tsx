@@ -23,6 +23,24 @@ export default function EditProblemPage() {
   const [problemData, setProblemData] = useState<ProblemData | any>({});
   const [languageProblemData, setLanguageProblemData] = useState<LanguageProblemData | any>({});
   const [allowEdit, setAllowEdit] = useState(false);
+  const [problemFileJson, setProblemFileJson] = useState<ProblemData | any>({})
+
+  const saveJsonProblem = async () => {
+    await putProblem(problemFileJson);
+  }
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (!files) return;
+
+    const fileReader = new FileReader();
+    fileReader.readAsText(files[0], "UTF-8");
+
+    fileReader.onload = (e: any) => {
+      setProblemFileJson(JSON.parse(e.target.result));
+    }
+  };
 
   async function handleGet() {
     const problemResponse = await getProblem(problemData.customId || '');
@@ -111,7 +129,19 @@ export default function EditProblemPage() {
           />
         </Form>
       </div>
-      <SaveFooter onDelete={handleDelete} onSave={handleSave} onGet={handleGet} isSaveDisabled={!allowEdit} isDeleteDisabled={!allowEdit} />
+      <div style={{
+        width: "1000px",
+      }}>
+        <input
+          type='file'
+          onChange={handleFileUpload}
+        />
+        <Button
+          type='button'
+          onClick={saveJsonProblem}
+        >Save file</Button>
+        <SaveFooter onDelete={handleDelete} onSave={handleSave} onGet={handleGet} isSaveDisabled={!allowEdit} isDeleteDisabled={!allowEdit} />
+      </div>
     </div>
   );
 }
