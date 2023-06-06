@@ -8,6 +8,25 @@ type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 export default function ContestPage() {
   const [contestData, setContestData] = useState<ContestData>({});
+  const [contestFileJson, setContestFileJson] = useState<ContestData | any>({})
+
+  const saveJsonProblem = async () => {
+    console.log(contestFileJson);
+    await putContest(contestFileJson);
+  }
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (!files) return;
+
+    const fileReader = new FileReader();
+    fileReader.readAsText(files[0], "UTF-8");
+
+    fileReader.onload = (e: any) => {
+      setContestFileJson(JSON.parse(e.target.result));
+    }
+  };
 
   function handleGet() {
     getContest(contestData.customId || '').then(setContestData);
@@ -77,6 +96,16 @@ export default function ContestPage() {
             DELETE
           </Button>
         </Form>
+      </div>
+      <div>
+        <input
+          type='file'
+          onChange={handleFileUpload}
+        />
+        <Button
+          type='button'
+          onClick={saveJsonProblem}
+        >Save file</Button>
       </div>
     </div>
   );

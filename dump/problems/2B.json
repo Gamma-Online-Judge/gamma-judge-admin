@@ -1,0 +1,33 @@
+{
+    "customId": "2B",
+    "timeLimit": 2000,
+    "memoryLimit": 256,
+    "tags": [
+        "math",
+        "logarithmic",
+        "factorial"
+    ],
+    "contestId": "2",
+    "sampleInputs": [
+        {
+            "input": "5 2\n4\n",
+            "output": "Lucas\n"
+        },
+        {
+            "input": "11 2\n5\n",
+            "output": "Lucas\n"
+        },
+        {
+            "input": "6 23\n20\n",
+            "output": "Pedro\n"
+        }
+    ],
+    "pt_BR": {
+        "title": "Jogo do Maior N\u00famero",
+        "statement": "THVjYXMgZSBQZWRybyBz428gYWx1bm9zIGRvIGVuc2lubyBt6WRpbyBxdWUgZmljYXJhbSBpbXByZXNzaW9uYWRvcyBhcPNzIHVtYSBhdWxhIGRlIG1hdGVt4XRpY2EsIG5hIHF1YWwgZm9pIGFwcmVzZW50YWRvIG8gZmF0b3JpYWwgZGUgdW0gbvptZXJvIG5hdHVyYWwgJG4kLCBpc3RvIOksClxbCiAgICBuISA9IG5cY2RvdCAobiAtIDEpXGNkb3QgXGxkb3RzIDIgXGNkb3QgMS4KXF0KRmljYXJhbSBjb20gdW1hIGT6dmlkYSwgcG9y6W06IHF1YWwgb3BlcmHn428gcHJvZHV6IG9zIG1haW9yZXMgcmVzdWx0YWRvcywgbyBmYXRvcmlhbCBvdSBhIApleHBvbmVuY2lh5+NvPwo8YnI+PGJyPkNvbSBlc3RhIGT6dmlkYSBlbSBtZW50ZSwgcHJvcHVzZXJhbSBvIEpvZ28gZG8gTWFpb3IgTvptZXJvOiBMdWNhcyBlc2NvbGhlcmlhIHVtYSBleHBvbmVuY2lh5+NvIGUKUGVkcm8gdW0gZmF0b3JpYWwuIE8gdmVuY2Vkb3Igc2VyaWEgYXF1ZWxlIGN1amEgZXhwcmVzc+NvIGNvcnJlc3BvbmRlc3NlIGFvIG1haW9yIG76bWVybyAKaW50ZWlyby4gCjxicj48YnI+Q29tbyBhcyBleHByZXNz9WVzIHBvZGVyaWFtIGdlcmFyIG76bWVyb3MgZGVtYXNpYWRhbWVudGUgZ3JhbmRlcywgb3MgZ2Fyb3RvcyBu428gZXJhbSBjYXBhemVzCmRlIGRldGVybWluYXIgbyB2ZW5jZWRvci4gQWp1ZGUtb3MsIGVzY3JldmVuZG8gdW0gcHJvZ3JhbWEgcXVlIGRldGVybWluZSBvIHZlbmNlZG9yIGRvIGpvZ28uCg==",
+        "input": "QSBwcmltZWlyYSBsaW5oYSBkYSBlbnRyYWRhIGNvbnTpbSBkb2lzIGludGVpcm9zIHBvc2l0aXZvcyAkYSQgZSAkYiQgKCQyXGxlcSBhLCBiXGxlcSAyXHRpbWVzIDEwXjckKSwgc2VwYXJhZG9zIHBvciB1bSBlc3Bh528gZW0gYnJhbmNvLCBvcyBxdWFpcyBpbmRpY2FtIHF1ZSBMdWNhcyBlc2NvbGhldSBhIGV4cG9uZW5jaWFsICRhXmIkLgo8YnI+PGJyPkEgc2VndW5kYSBsaW5oYSBjb2506W0gbyBpbnRlaXJvICRuJCAoJDJcbGVxIG5cbGVxIDJcdGltZXMgMTBeNyQpLCBpbmRpY2FuZG8gcXVlIFBlZHJvIGVzY29saGV1CiRuISQuCg==",
+        "output": "SW1wcmltYSwgZW0gdW1hIGxpbmhhLCBvIHZlbmNlZG9yIGRvIGpvZ286IGBgXHRleHR0dHtMdWNhc30nJywgb3UgYGBcdGV4dHR0e1BlZHJvfScnLiDJIGdhcmFudGlkbwpxdWUgbyBqb2dvIHRlcuEgc2VtcHJlIHVtIHZlbmNlZG9yLgo=",
+        "tutorial": "TyBwcm9ibGVtYSBjb25zaXN0ZSBlbSBkZXRlcm1pbmFyIHNlIGEgZGVzaWd1YWxkYWRlICRhXmIgPCBuISQg6SB2ZXJkYWRlaXJhIG91IGZhbHNhLiBBIGRpZmljdWxkYWRlCnJlc2lkZSBub3MgbGltaXRlczogY29tbyAkYSwgYiwgblxsZXEgMlx0aW1lcyAxMF43JCwg6SBpbnZp4XZlbCBjb21wdXRhciBvcyB2YWxvcmVzIGV4YXRvcyBkb3MKdGVybW9zICRhXmIkIGUgJG4hJCBkZW50cm8gZG8gbGltaXRlIGRlIHRlbXBvLgo8YnI+PGJyPlVtYSBtYW5laXJhIGRlIHZlcmlmaWNhciBhIGRlc2lndWFsZGFkZSBzZW0gY29tcHV0YXIgb3MgdmFsb3JlcyBleGF0b3MgZGEgZXhwb25lbmNpYWwgZSBkbwpmYXRvcmlhbCDpIHV0aWxpYXIgdW1hIGZ1bufjbyAkZiQgY3Jlc2NlbnRlLiBJc3RvIHBvcnF1ZSwgc2UgJHggPCB5JCwgZW50428gJGYoeCkgPCBmKHkpJC4gQXNzaW0sCnNlIGNvbXB1dGFyICRmKGFeYikkIGUgJGYobiEpJCBmb3IgY29tcHV0YWNpb25hbG1lbnRlIHZp4XZlbCwgc2Vy4SBwb3Nz7XZlbCBkZXRlcm1pbmFyIGEgdmVyYWNpZGFkZQpvdSBu428gZGEgZGVzaWd1YWxkYWRlLgo8YnI+PGJyPlVtYSBjYW5kaWRhdGEgYXByb3ByaWFkYSDpIGEgZnVu5+NvIGxvZ2FyaXRtby4gQWzpbSBkZSBzZXIgdW1hIGZ1bufjbyBjcmVzY2VudGUsIGR1YXMgZGUKc3VhcyBwcm9wcmllZGFkZXMgc+NvIGltZWRpYXRhbWVudGUgYXBsaWPhdmVpcyBuZXN0ZSBwcm9ibGVtYTogcGFyYSAkeCwgeSQgcG9zaXRpdm9zIGUgJGMgPiAxJCwKXFsKICAgIFxsb2dfYyB4XnkgPSB5XGxvZ19jIHgKXF0KZQpcWwogICAgXGxvZ19jIHh5ID0gXGxvZ19jIHggKyBcbG9nX2MgeQpcXQo8YnI+PGJyPkFzc2ltLCBzZSAkYyA9IGUkLCBlbnTjbyAkXGxvZ19jIHggPSBcbG4geCQgZQpcWwogICAgXGxuIGFeYiA9IGJcbG4gYQpcXQplClxbCiAgICBcbG4gbiEgPSBcc3VtX3tpID0gMX1ebiBcbG4gaQpcXQo8YnI+PGJyPkVzdGEgc29sdefjbyB0ZW0gY29tcGxleGlkYWRlICRPKG4pJCBlIG1lbfNyaWEgJE8oMSkkLiBPdXRyYSBhbHRlcm5hdGl2YSDpIHV0aWxpemFyIGEgCmZ1bufjbyAkZih4KSA9IFxzcXJ0W2Jde3h9JC4gTmVzdGUgY2FzbywKXFsKICAgIGYoYV5iKSA9IGEKXF0KZQpcWwogICAgZihuISkgPSBccHJvZF97aSA9IDF9Xm4gXHNxcnRbYl17aX0KXF0KPGJyPjxicj5FbWJvcmEgZXN0YSBhYm9yZGFnZW0gdGFtYultIGxldmUgYSBzb2x15+NvIGNvcnJldGEsIG8gdGVtcG8gZGUgZXhlY3Xn428gZGEgZnVu5+NvICRcc3FydFtiXXt4fSQK6SwgZW0gZ2VyYWwsIG1haW9yIGRvIHF1ZSBvIGRhIGZ1bufjbyAkXGxuIHgkLCBkZSBtb2RvIHF1ZSBlc3RhIHNlZ3VuZGEgYWx0ZXJuYXRpdmEgcG9kZSwgCmV2ZW50dWFsbWVudGUsIGV4Y2VkZXIgbyBsaW1pdGUgZGUgdGVtcG8gZW0gY2Fzb3MgZGUgdGVzdGVzIHF1ZSBhIHByaW1laXJhIHNvbHXn428gbuNvIGV4Y2VkZXJpYS4K",
+        "notes": "Tm8gcHJpbWVpcm8gY2FzbywgJDVeMiA9IDI1ID4gMjQgPSA0ISQsIGxvZ28gbyB2ZW5jZWRvciDpIEx1Y2FzLgo8YnI+PGJyPk5vIHNlZ3VuZG8gY2FzbywgJDExXjIgPSAxMjEgPiAxMjAgPSA1ISQsIGRlIG1vZG8gcXVlIG5vdmFtZW50ZSBMdWNhcyDpIG8gdmVuY2Vkb3IuCjxicj48YnI+Tm8gdGVyY2Vpcm8gY2FzbyAkMjAhID0gMjQzMjkwMjAwODE3NjY0MDAwMCA+IDc4OTczMDIyMzA1MzYwMjgxNiA9IDZeezIzfSQsIHBvcnRhbnRvIGEgdml083JpYSDpCmRlIFBlZHJvLgo="
+    }
+}

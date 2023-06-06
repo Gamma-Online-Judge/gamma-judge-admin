@@ -11,52 +11,108 @@ import {
   putProblem,
   deleteProblem,
   getProblem,
-} from '../actions/problems.client';
-import { ProblemData, SampleInputData } from '../models/problem';
-import InputGroup from '../components/input/InputGroup';
+} from '../../actions/problems.client';
+import { LanguageProblemData, ProblemData, SampleInputData } from '../../models/problem';
+import InputGroup from '../../components/input/InputGroup';
+import SaveFooter from '../../components/SaveFooter';
+import './styles.css';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
-export default function ProblemPage() {
-  const [problemData, setProblemData] = useState<ProblemData>({});
+export default function EditProblemPage() {
+  const [problemData, setProblemData] = useState<ProblemData | any>({});
+  const [languageProblemData, setLanguageProblemData] = useState<LanguageProblemData | any>({});
+  const [allowEdit, setAllowEdit] = useState(false);
+  const [problemFileJson, setProblemFileJson] = useState<ProblemData | any>({})
 
-  function handleGet() {
-    getProblem(problemData.customId || '').then(setProblemData);
+  const saveJsonProblem = async () => {
+    await putProblem(problemFileJson);
   }
 
-  function handleSubmit() {
-    putProblem(problemData);
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (!files) return;
+
+    const fileReader = new FileReader();
+    fileReader.readAsText(files[0], "UTF-8");
+
+    fileReader.onload = (e: any) => {
+      setProblemFileJson(JSON.parse(e.target.result));
+    }
+  };
+
+  async function handleGet() {
+    const problemResponse = await getProblem(problemData.customId || '');
+    setAllowEdit(true);
+    setProblemData(problemResponse);
   }
 
-  function handleDelete() {
-    deleteProblem(problemData.customId || '');
+  async function handleSave() {
+    const problemRequest = problemData;
+    problemRequest.pt_BR = languageProblemData;
+    problemRequest.pt_BR.statement = btoa(problemRequest.pt_BR.statement);
+    problemRequest.pt_BR.input = btoa(problemRequest.pt_BR.input);
+    problemRequest.pt_BR.output = btoa(problemRequest.pt_BR.output);
+    problemRequest.pt_BR.notes = btoa(problemRequest.pt_BR.notes);
+    problemRequest.pt_BR.tutorial = btoa(problemRequest.pt_BR.tutorial);
+
+    console.log(problemRequest);
+    await putProblem(problemData);
   }
-  function handleInputChange(e: InputEvent) {
-    setProblemData({ ...problemData, [e.target.id]: e.target.value });
+
+  async function handleDelete() {
+    await deleteProblem(problemData.customId || '');
+  }
+
+  function handleInputChange(e: InputEvent, isLanguageKey: boolean = false) {
+    if (isLanguageKey){
+      setLanguageProblemData({ ...languageProblemData, [e.target.id]: e.target.value });
+    }
+    else {
+      setProblemData({...problemData, [e.target.id]: e.target.value});
+    }
   }
 
   return (
-    <div>
+    <div className='edit-problem-page'>
       <div className="title-container">
-        <h1 className="form-title"> PUT Problem </h1>
+        <h1 className="form-title"> { languageProblemData.title} </h1>
       </div>
       <div className="form-container">
         <Form>
+          <FloatingLabel label="customId">
+            <Form.Control
+              id={"customId"}
+              value={problemData.customId}
+              onChange={(e: InputEvent) => {
+                setAllowEdit(false);
+                handleInputChange(e)
+              }}
+            />
+          </FloatingLabel>
+          <FloatingLabel label="title">
+            <Form.Control
+              id={"title"}
+              value={languageProblemData.title}
+              onChange={(e: InputEvent) => {
+                handleInputChange(e, true);
+              }}
+            />
+          </FloatingLabel>
           <InputGroup
             onChange={handleInputChange}
             model={problemData}
             keyList={[
-              'customId',
-              'title',
               'timeLimit',
               'memoryLimit',
               'contestId',
             ]}
           />
           <InputGroup
-            onChange={handleInputChange}
-            model={problemData}
-            keyList={['statment', 'input', 'output', 'tutorial']}
+            onChange={(value: InputEvent) => handleInputChange(value, true)}
+            model={languageProblemData}
+            keyList={['statement', 'input', 'output', 'notes', 'tutorial']}
             renderType="textarea"
           />
 
@@ -71,31 +127,20 @@ export default function ProblemPage() {
               setProblemData({ ...problemData, sampleInputs: sampleInputs })
             }
           />
-
-          <Button
-            className="input-container"
-            variant="success"
-            onClick={handleGet}
-          >
-            GET
-          </Button>
-
-          <Button
-            className="input-container"
-            variant="primary"
-            onClick={handleSubmit}
-          >
-            PUT
-          </Button>
-
-          <Button
-            className="input-container"
-            variant="danger"
-            onClick={handleDelete}
-          >
-            DELETE
-          </Button>
         </Form>
+      </div>
+      <div style={{
+        width: "1000px",
+      }}>
+        <input
+          type='file'
+          onChange={handleFileUpload}
+        />
+        <Button
+          type='button'
+          onClick={saveJsonProblem}
+        >Save file</Button>
+        <SaveFooter onDelete={handleDelete} onSave={handleSave} onGet={handleGet} isSaveDisabled={!allowEdit} isDeleteDisabled={!allowEdit} />
       </div>
     </div>
   );

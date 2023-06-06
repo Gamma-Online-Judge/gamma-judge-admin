@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import ContestPage from './pages/ContestPage';
 import HomePage from './pages/HomePage';
-import ProblemPage from './pages/ProblemPage';
+import ProblemPage from './pages/EditProblemPage';
 
 function App() {
   return (

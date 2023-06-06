@@ -1,0 +1,21 @@
+{
+    "customId": "problem1",
+    "title": "string",
+    "statement": "string",
+    "timeLimit": 0,
+    "memoryLimit": 0,
+    "tags": [
+      "string"
+    ],
+    "contestId": "string",
+    "sampleInputs": [
+      {
+        "input": "string",
+        "output": "string"
+      }
+    ],
+    "input": "string",
+    "output": "string",
+    "tutorial": "string",
+    "notes": "string"
+}
