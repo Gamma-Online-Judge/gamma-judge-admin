@@ -40,7 +40,9 @@ Run:
 docker compose up --build
 ```
 
-## Syntax:
+## Imports using JSON:
+
+### Problems
 
 The fields statement, input, output, tutorial and notes supports both html and latex language. For support Latex, you need to put the latex code inside 2 '$' charactere. Some text formats needs of HTML tags like line break (< br >) and images (< img >).
 
@@ -71,3 +73,29 @@ text encoding iso-8859-1
     }
 }
 ```
+
+### Contest
+
+```json
+{
+    "name": "", // Name of the contest
+    "date": "2023-05-23T21:51:59.391Z", // Datetime that occured the contest 
+    "customId": "1", // Custom Identifier to contest
+    "problems": [ // list of problems in the contest
+      {
+        "identifier": "A", // Identifier of each problem inside contest
+        "customId": "1A" // Identifier of the problem
+      },
+      {
+        "identifier": "B",
+        "customId": "1B"
+      }
+    ]
+  }
+```
+
+## Adding images
+
+It is possible to add images in problems importing by JSON or editing in Gamma Judge Admin interface. To do it add the tag HTML `<img>`
+and use it to add your image. With it is possible to add images from url or using it base64 encoding. If you're importing by JSON, you need to encoding this tag along the rest of the text.
+
