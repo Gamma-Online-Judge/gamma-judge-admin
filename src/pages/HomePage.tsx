@@ -11,14 +11,7 @@ export default function HomePage() {
         <div className="title-container">
           <h1 className="form-title"> Gamma Judge Admin </h1>
         </div>
-        <div className="form-container">
-          <Link className="input-container" to="/problems">
-            <Button>Problems</Button>
-          </Link>
-          <Link className="input-container" to="/contests">
-            <Button>Contests</Button>
-          </Link>
-        </div>
+        <img src="https://i.imgur.com/yi7dy7a.jpg" style={{width: '100%'}}></img>
       </Container>
     </div>
   );

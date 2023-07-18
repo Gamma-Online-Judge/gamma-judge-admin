@@ -1,42 +1,79 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Container} from "@mui/material"
 import { Button, Card, FloatingLabel, Form, ListGroup } from 'react-bootstrap';
 import { deleteContest, getContest, putContest } from '../actions/contests.client';
 import { ContestData, ContestProblemData } from '../models/contest';
 import InputGroup from '../components/input/InputGroup';
+import Header from '../components/Header/header';
+import { useHistory, useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 export default function ContestPage() {
   const [contestData, setContestData] = useState<ContestData>({});
-  const [contestFileJson, setContestFileJson] = useState<ContestData | any>({})
+  const [isEditing, setIsEditing] = useState(false);
 
-  const saveJsonProblem = async () => {
-    console.log(contestFileJson);
-    await putContest(contestFileJson);
-  }
+  const params = useParams() as any;
+  const history = useHistory();
+
+  useEffect(() => {
+    if (params.contestId){
+      setIsEditing(true)
+      getContest(params.contestId).then(res => {
+        setContestData(res);
+      })
+    }
+  }, []);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-
-    if (!files) return;
-
-    const fileReader = new FileReader();
-    fileReader.readAsText(files[0], "UTF-8");
-
-    fileReader.onload = (e: any) => {
-      setContestFileJson(JSON.parse(e.target.result));
+    const updateFields = async () => {
+      const files = event.target.files;
+  
+      if (!files) return;
+  
+      const fileReader = new FileReader();
+      fileReader.readAsText(files[0], "UTF-8");
+  
+      fileReader.onload = (e: any) => {
+        setContestData(JSON.parse(e.target.result));
+      }
     }
+
+    toast.promise(
+      updateFields,
+      {
+        pending: 'Importando...',
+        success: 'Importado com sucesso!',
+        error: 'Erro ao importar!',
+      }
+    )
   };
 
-  function handleGet() {
-    getContest(contestData.customId || '').then(setContestData);
-  }
   function handleSubmit() {
-    putContest(contestData);
+    toast.promise(
+      () => putContest(contestData),
+      {
+        pending: 'Salvando...',
+        success: 'Salvo com sucesso!',
+        error: 'Erro ao salvar!',
+      }
+    ).then(() => {
+      history.push('/contests')
+    })
   }
 
   function handleDelete() {
-    deleteContest(contestData.customId || '');
+    toast.promise(
+      () => deleteContest(contestData.customId || ''),
+      {
+        pending: 'Deletando...',
+        success: 'Deletado com sucesso!',
+        error: 'Erro ao Deletar!',
+      }
+    ).then(() => {
+      history.push('/contests')
+    })
   }
 
   function handleInputChange(e: InputEvent) {
@@ -45,6 +82,10 @@ export default function ContestPage() {
 
   return (
     <div>
+      <Header/>
+      <ToastContainer />
+      <Container>
+
       <div className="title-container">
         <h1 className="form-title"> PUT Contest </h1>
       </div>
@@ -62,7 +103,7 @@ export default function ContestPage() {
                 type="date"
                 value={contestData.date?.toString()}
                 onChange={handleInputChange}
-              />
+                />
             </FloatingLabel>
           </div>
           <ContestDataList
@@ -70,43 +111,33 @@ export default function ContestPage() {
             onChange={(problems) =>
               setContestData({ ...contestData, problems: problems })
             }
-          />
-
-          <Button
-            className="input-container"
-            variant="success"
-            onClick={handleGet}
-          >
-            GET
-          </Button>
+            />
 
           <Button
             className="flex-input"
             variant="primary"
             onClick={handleSubmit}
-          >
-            PUT
+            >
+            SAVE
           </Button>
 
           <Button
             className="flex-input"
             variant="danger"
             onClick={handleDelete}
-          >
+            disabled={!isEditing}
+            >
             DELETE
           </Button>
         </Form>
       </div>
       <div>
+
         <input
           type='file'
-          onChange={handleFileUpload}
-        />
-        <Button
-          type='button'
-          onClick={saveJsonProblem}
-        >Save file</Button>
+          onChange={handleFileUpload}/>
       </div>
+    </Container>
     </div>
   );
 }

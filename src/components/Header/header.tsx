@@ -10,11 +10,11 @@ import { Container, Link } from '@mui/material';
 const navigation = [
     {
         path: '/contests',
-        title: 'Contest'
+        title: 'Contests'
     },
     {
         path: '/problems',
-        title: 'Lista de Problemas'
+        title: 'Problemas'
     },
 ]
 

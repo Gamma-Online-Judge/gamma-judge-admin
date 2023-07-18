@@ -17,3 +17,8 @@ export async function getContest(customId: string) {
     const contest = await client.get(`/${customId}`);
     return contest.data as ContestData;
 }
+
+export async function getAllContests() {
+    const contest = await client.get('/');
+    return contest.data as ContestData[];
+}

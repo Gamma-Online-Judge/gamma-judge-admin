@@ -6,18 +6,21 @@ import { useEffect, useState } from "react";
 import { getAllProblems } from "../../actions/problems.client";
 import { ProblemData } from "../../models/problem";
 import { useHistory } from "react-router-dom";
+import { ContestData } from "../../models/contest";
+import { getAllContests } from "../../actions/contests.client";
 
-export const ProblemListPage = () => {
+export const ContestListPage = () => {
 
-  const [problemList, setProblemList] = useState<ProblemData[]>([]);
+  const [contestList, setContestList] = useState<ContestData[]>([]);
 
   const history = useHistory();
 
   useEffect(() => {
-    getAllProblems().then(res => {
-      setProblemList(res);
+    getAllContests().then(res => {
+        setContestList(res);
     })
   }, [])
+
   return (
     <div>
       <Header />
@@ -27,16 +30,16 @@ export const ProblemListPage = () => {
             <TableHead style={{backgroundColor: "#c0c0c0"}}>
               <TableRow>
                 <TableCell style={{ fontSize: '25px', fontWeight: '700'}}>Custom Id</TableCell>
-                <TableCell style={{ fontSize: '25px', fontWeight: '700'}}>Título do problema</TableCell>
+                <TableCell style={{ fontSize: '25px', fontWeight: '700'}}>Nome do contest</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => history.push('/problem/new')}>
+                  <IconButton onClick={() => history.push('/contest/new')}>
                     <AddCircleIcon/>
                   </IconButton>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {problemList.map((row) => (
+              {contestList.map((row) => (
                 <TableRow
                   key={row.customId}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -44,9 +47,9 @@ export const ProblemListPage = () => {
                   <TableCell component="th" scope="row" style={{ fontSize: '20px', fontWeight: '500'}}>
                     {row.customId}
                   </TableCell>
-                  <TableCell style={{ fontSize: '20px', fontWeight: '500'}}>{row.pt_BR?.title}</TableCell>
+                  <TableCell style={{ fontSize: '20px', fontWeight: '500'}}>{row.name}</TableCell>
                   <TableCell width={"10px"}>
-                    <IconButton onClick={() => history.push(`/problems/${row.customId}`)}><EditIcon/></IconButton>
+                    <IconButton onClick={() => history.push(`/contests/${row.customId}`)}><EditIcon/></IconButton>
                   </TableCell>
                 </TableRow>
               ))}
