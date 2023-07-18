@@ -1,20 +1,19 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import './styles.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Container, Input } from "@mui/material";
 
 export interface SaveFooterProps {
   onSave?: () => Promise<void>;
   onDelete?: () => Promise<void>;
-  onGet?: () => Promise<void>;
+  onImport?: (el: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
   isSaveDisabled?: boolean;
   isDeleteDisabled?: boolean;
 }
 
-export default function SaveFooter({ onSave = async () => undefined, onDelete = async () => undefined, onGet = async () => undefined, isSaveDisabled = false, isDeleteDisabled = false }: SaveFooterProps) {
-
-  const [isGetting, setIsGetting] = React.useState(false);
+export default function SaveFooter({ onSave = async () => undefined, onDelete = async () => undefined, onImport = async (el: React.ChangeEvent<HTMLInputElement>) => undefined, isDeleteDisabled = false }: SaveFooterProps) {
 
   function handleSave() {
     toast.promise(
@@ -38,55 +37,52 @@ export default function SaveFooter({ onSave = async () => undefined, onDelete = 
     )
   }
 
-  async function handleGet() {
-    setIsGetting(true);
-    try {
-      await onGet();
-    }
-    catch {
-      toast.error('Erro ao recuperar dadaos!');
-    }
-    finally {
-      setIsGetting(false);
-    }
+  function handleImport(file: React.ChangeEvent<HTMLInputElement>) {
+    toast.promise(
+      () => onImport(file),
+      {
+        pending: 'Importando...',
+        success: 'Importado com sucesso!',
+        error: 'Erro ao importar!',
+      }
+    )
   }
 
-
   return (
-    <>
+    <div className="save-footer">
       <ToastContainer />
-      <div className="save-footer">
-        <div>
+      <Container maxWidth="lg">
+        <Row>
+
+        <Col>
           <Button
             variant="danger"
             className="delete-button"
             onClick={handleDelete}
             disabled={isDeleteDisabled}
-          >
+            >
             Delete
           </Button>
-        </div>
-        <div className="save-button-container">
-          <Button
-            variant="success"
-            className="get-button"
-            onClick={handleGet}
-            disabled={isGetting}
-          >
-            {isGetting ? 'Recuperando dados...' : 'Recuperar dados'}
-          </Button>
-
+        </Col>
+        <Col className="save-button-container">
           <Button
             variant="primary"
             className="save-button"
             onClick={handleSave}
-            disabled={isSaveDisabled}
-          >
+            >
             Salvar
           </Button>
-        </div>
-
-      </div>
-    </>
+        </Col>
+        <Col>
+          <input
+            type="file"
+            className="delete-button"
+            onChange={handleImport}
+            >
+          </input>
+        </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
