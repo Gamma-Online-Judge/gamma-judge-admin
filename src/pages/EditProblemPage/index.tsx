@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -16,6 +16,9 @@ import { LanguageProblemData, ProblemData, SampleInputData } from '../../models/
 import InputGroup from '../../components/input/InputGroup';
 import SaveFooter from '../../components/SaveFooter';
 import './styles.css';
+import { useHistory, useParams } from 'react-router-dom';
+import { Container } from '@mui/material';
+import Header from '../../components/Header/header';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -23,14 +26,45 @@ export default function EditProblemPage() {
   const [problemData, setProblemData] = useState<ProblemData | any>({});
   const [languageProblemData, setLanguageProblemData] = useState<LanguageProblemData | any>({});
   const [allowEdit, setAllowEdit] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [problemFileJson, setProblemFileJson] = useState<ProblemData | any>({})
+
+  const params = useParams() as any;
+  const history = useHistory();
+
+  const decodeLanguageProblem = (languageProblem: any) => {
+    return {
+      ...languageProblem,
+      statement: atob(languageProblem?.statement ?? ''),
+      input: atob(languageProblem?.input ?? ''),
+      output: atob(languageProblem?.output ?? ''),
+      tutorial: atob(languageProblem?.tutorial ?? ''),
+      notes: atob(languageProblem?.notes ?? '')
+    }
+  }
+
+  useEffect(() => {
+    if (params.customId){
+      setIsEditing(true);
+      getProblem(params?.customId).then(res => {
+        console.log(res);
+        setAllowEdit(true);
+        setProblemData(res);
+        setLanguageProblemData(decodeLanguageProblem(res.pt_BR))
+      }).catch(err => {
+        alert(err.response?.statusText?? err);
+      })
+    }
+  }, [])
 
   const saveJsonProblem = async () => {
     await putProblem(problemFileJson);
   }
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
+
+    console.log(files);
 
     if (!files) return;
 
@@ -38,15 +72,11 @@ export default function EditProblemPage() {
     fileReader.readAsText(files[0], "UTF-8");
 
     fileReader.onload = (e: any) => {
-      setProblemFileJson(JSON.parse(e.target.result));
+      const jsonFileParsed = JSON.parse(e.target.result)
+      setProblemData(jsonFileParsed);
+      setLanguageProblemData(decodeLanguageProblem(jsonFileParsed.pt_BR))
     }
   };
-
-  async function handleGet() {
-    const problemResponse = await getProblem(problemData.customId || '');
-    setAllowEdit(true);
-    setProblemData(problemResponse);
-  }
 
   async function handleSave() {
     const problemRequest = problemData;
@@ -62,7 +92,9 @@ export default function EditProblemPage() {
   }
 
   async function handleDelete() {
-    await deleteProblem(problemData.customId || '');
+    await deleteProblem(problemData.customId || '').then(res => {
+      history.push('/problems');
+    });
   }
 
   function handleInputChange(e: InputEvent, isLanguageKey: boolean = false) {
@@ -75,7 +107,9 @@ export default function EditProblemPage() {
   }
 
   return (
-    <div className='edit-problem-page'>
+    <>
+      <Header/>
+    <Container>
       <div className="title-container">
         <h1 className="form-title"> { languageProblemData.title} </h1>
       </div>
@@ -89,7 +123,7 @@ export default function EditProblemPage() {
                 setAllowEdit(false);
                 handleInputChange(e)
               }}
-            />
+              />
           </FloatingLabel>
           <FloatingLabel label="title">
             <Form.Control
@@ -98,7 +132,7 @@ export default function EditProblemPage() {
               onChange={(e: InputEvent) => {
                 handleInputChange(e, true);
               }}
-            />
+              />
           </FloatingLabel>
           <InputGroup
             onChange={handleInputChange}
@@ -108,25 +142,25 @@ export default function EditProblemPage() {
               'memoryLimit',
               'contestId',
             ]}
-          />
+            />
           <InputGroup
             onChange={(value: InputEvent) => handleInputChange(value, true)}
             model={languageProblemData}
             keyList={['statement', 'input', 'output', 'notes', 'tutorial']}
             renderType="textarea"
-          />
+            />
 
           <TagList
             tags={problemData.tags || []}
             onChange={(tags) => setProblemData({ ...problemData, tags: tags })}
-          />
+            />
 
           <SampleInputList
             sampleInputs={problemData.sampleInputs || []}
             onChange={(sampleInputs) =>
               setProblemData({ ...problemData, sampleInputs: sampleInputs })
             }
-          />
+            />
         </Form>
       </div>
       <div style={{
@@ -135,14 +169,15 @@ export default function EditProblemPage() {
         <input
           type='file'
           onChange={handleFileUpload}
-        />
+          />
         <Button
           type='button'
           onClick={saveJsonProblem}
-        >Save file</Button>
-        <SaveFooter onDelete={handleDelete} onSave={handleSave} onGet={handleGet} isSaveDisabled={!allowEdit} isDeleteDisabled={!allowEdit} />
+          >Save file</Button>
+        <SaveFooter onDelete={handleDelete} onSave={handleSave} isDeleteDisabled={!isEditing} onImport={handleFileUpload}/>
       </div>
-    </div>
+    </Container>
+  </>
   );
 }
 
@@ -152,7 +187,7 @@ interface TagListProps {
 }
 function TagList({ tags, onChange }: TagListProps) {
   const [newTag, setNewTag] = useState<string>('');
-
+  
   function addNewTag() {
     onChange([...tags, newTag]);
     setNewTag('');

@@ -14,6 +14,11 @@ export async function deleteProblem(problemId: string) {
 }
 
 export async function getProblem(problemId: string) {
-    const problem = await client.get(`/raw/${problemId}`);
+    const problem = await client.get(`/${problemId}`);
     return problem.data as ProblemData;
+}
+
+export async function getAllProblems() {
+    const problems = await client.get(`/`);
+    return problems.data as ProblemData[];
 }
